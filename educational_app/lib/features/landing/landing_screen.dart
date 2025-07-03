@@ -9,6 +9,7 @@ import 'package:educational_app/features/landing/widgets/skip_button.dart';
 import 'package:educational_app/providers/landing_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LandingScreen extends ConsumerStatefulWidget {
   const LandingScreen({super.key});
@@ -39,11 +40,6 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          SkipButtonWidget(
-            onPressed: () {
-              // todo: navigate to sign in screen
-            },
-          ),
           PageView(
             controller: pageController,
             onPageChanged: (index) {
@@ -124,7 +120,7 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
                         ),
                         NextButtonWidget(
                           onPressed: () {
-                            // todo: navigate to sign up or login page
+                            context.go('/login');
                           },
                         ),
                       ],
@@ -133,6 +129,11 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
                 ],
               ),
             ],
+          ),
+          SkipButtonWidget(
+            onPressed: () {
+              context.go('/login');
+            },
           ),
           PageIndicatorWidget(currentPage: currentPage, totalPages: 3),
         ],

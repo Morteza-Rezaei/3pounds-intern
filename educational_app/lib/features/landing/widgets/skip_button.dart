@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SkipButtonWidget extends StatelessWidget {
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
 
-  const SkipButtonWidget({super.key, this.onPressed});
+  const SkipButtonWidget({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +13,7 @@ class SkipButtonWidget extends StatelessWidget {
       top: 48.h,
       right: 36.w,
       child: TextButton(
-        onPressed:
-            onPressed ??
-            () {
-              // todo: navigate to sign in screen
-            },
+        onPressed: onPressed,
         child: Text(
           AppStrings.skip,
           style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
