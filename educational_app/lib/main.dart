@@ -1,5 +1,5 @@
 import 'package:educational_app/app/router/app_router.dart';
-import 'package:educational_app/app/theme/theme.dart';
+import 'package:educational_app/core/theme/theme.dart';
 import 'package:educational_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

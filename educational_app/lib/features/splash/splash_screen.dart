@@ -1,4 +1,4 @@
-import 'package:educational_app/app/theme/theme.dart';
+import 'package:educational_app/core/theme/theme.dart';
 import 'package:educational_app/core/constants/app_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
