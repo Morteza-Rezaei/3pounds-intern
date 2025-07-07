@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -12,6 +13,19 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToLanding();
+  }
+
+  _navigateToLanding() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      context.go('/welcome');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

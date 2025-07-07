@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/config/theme/button_theme.dart';
 import 'package:food_delivery/config/theme/text_theme_config.dart';
 
 class AppTheme {
@@ -20,6 +21,7 @@ class AppTheme {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
+      elevatedButtonTheme: elevatedButtonTheme(),
     );
   }
 }
