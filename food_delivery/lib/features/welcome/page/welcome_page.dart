@@ -13,16 +13,6 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => WelcomeBloc(),
-      child: _WelcomePageContent(),
-    );
-  }
-}
-
-class _WelcomePageContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     final pageController = PageController(initialPage: 0);
 
     return Scaffold(
@@ -69,6 +59,9 @@ class _WelcomePageContent extends StatelessWidget {
                     SizedBox(
                       width: 300.w,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.amber,
+                        ),
                         onPressed: () {
                           if (state.pageIndex < 2) {
                             // If not on the last page, go to the next page
@@ -77,24 +70,22 @@ class _WelcomePageContent extends StatelessWidget {
                               curve: Curves.easeInOut,
                             );
                           } else {
-                            // If on the last page, navigate to the login page
-                            // ! for now we will navigate to the splash page
-                            context.go('/splash');
+                            context.go('/sign-in');
                           }
                         },
 
-                        child: Text('Get Started'),
+                        child: Text('Next'),
                       ),
                     ),
                     SizedBox(height: 50.h),
                     TextButton(
                       onPressed: () {
-                        // Todo: Implement skip functionality and navigate to the login page
+                        context.go('/sign-in');
                       },
                       child: Text(
                         'Skip',
                         style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(color: AppColors.primary),
+                            ?.copyWith(color: AppColors.gray),
                       ),
                     ),
                   ],

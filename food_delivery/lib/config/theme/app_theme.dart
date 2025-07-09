@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/config/theme/button_theme.dart';
 import 'package:food_delivery/config/theme/text_theme_config.dart';
+import 'package:food_delivery/config/theme/textfield_theme.dart';
 
 class AppTheme {
   static const Color primaryColor = Color(0xFFFF7622);
@@ -22,6 +23,8 @@ class AppTheme {
         elevation: 0,
       ),
       elevatedButtonTheme: elevatedButtonTheme(),
+      outlinedButtonTheme: outlinedButtonTheme(),
+      inputDecorationTheme: inputDecorationTheme(),
     );
   }
 }
