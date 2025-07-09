@@ -71,6 +71,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           final email = state.email;
                           print('Reset password for email: $email');
+                          context.push('/reset-link');
                         }
                       },
                     ),

@@ -5,6 +5,9 @@ import 'package:food_delivery/core/constants/decoration.dart';
 
 InputDecorationTheme inputDecorationTheme() {
   return InputDecorationTheme(
+    // backgroundColor: AppColors.grayLight,
+    fillColor: AppColors.textFieldFill,
+    filled: true,
     border: OutlineInputBorder(
       borderRadius: AppDecorations.textFieldRadius,
       borderSide: BorderSide(color: AppColors.gray, width: 0.5),

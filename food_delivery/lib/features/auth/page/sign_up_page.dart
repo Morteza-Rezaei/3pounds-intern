@@ -4,16 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
 import 'package:food_delivery/core/enums/auth_field_type.dart';
-import 'package:food_delivery/features/auth/bloc/sign_in_bloc/sign_in_bloc.dart';
+import 'package:food_delivery/features/auth/bloc/sign_up_bloc/sign_up_bloc.dart';
 import 'package:food_delivery/features/auth/widget/auth_button.dart';
 import 'package:food_delivery/features/auth/widget/auth_textfield.dart';
 import 'package:food_delivery/features/auth/widget/section_sub_title.dart';
 import 'package:food_delivery/features/auth/widget/section_title.dart';
 import 'package:food_delivery/features/auth/widget/social_signin_button.dart';
+import 'package:food_delivery/features/auth/widget/term_conditions_texts.dart';
 import 'package:go_router/go_router.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class SignInPage extends StatelessWidget {
     // false means the password is visible
     final obscurePasswordNotifier = ValueNotifier<bool>(true);
 
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return Scaffold(
           body: Form(
@@ -32,18 +33,26 @@ class SignInPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 50.h),
+                    SizedBox(height: 20.h),
                     SectionTitle(
-                      text: 'Just ',
-                      highlightedText: 'Sign in, ',
-                      endText: "we'll\n prepare your order",
+                      text: 'Get started with\nHunger ',
+                      highlightedText: 'Hub',
                     ),
+
                     SectionSubtitle(
-                      text: 'If you don\'t have an account\nplease ',
-                      clickableText: 'Sign up here',
+                      text: 'If you already have an account,\nplease ',
+                      clickableText: 'Sign in here',
                       onTap: () {
-                        // Navigate to sign up page
-                        context.go('/sign-up');
+                        // Navigate to sign in page
+                        context.go('/sign-in');
+                      },
+                    ),
+
+                    AuthTextField(
+                      labelText: 'Full Name',
+                      fieldType: AuthFieldType.username,
+                      onChanged: (value) {
+                        context.read<SignUpBloc>().add(EmailEvent(value));
                       },
                     ),
 
@@ -51,7 +60,7 @@ class SignInPage extends StatelessWidget {
                       labelText: 'Email',
                       fieldType: AuthFieldType.email,
                       onChanged: (value) {
-                        context.read<SignInBloc>().add(EmailEvent(value));
+                        context.read<SignUpBloc>().add(EmailEvent(value));
                       },
                     ),
 
@@ -60,52 +69,46 @@ class SignInPage extends StatelessWidget {
                       fieldType: AuthFieldType.password,
                       obscurePasswordNotifier: obscurePasswordNotifier,
                       onChanged: (value) {
-                        context.read<SignInBloc>().add(PasswordEvent(value));
+                        context.read<SignUpBloc>().add(PasswordEvent(value));
                       },
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: TextButton(
-                            onPressed: () {
-                              context.push('/forgot-password');
-                            },
-                            child: Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: AppColors.lightGray,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
 
                     // just a test button
                     AuthButton(
-                      text: "SIGN IN",
+                      text: "SIGN UP",
                       onPressed: () {
                         if (formKey.currentState?.validate() ?? false) {
                           // for now just print the email and password form the bloc
+                          final name = state.username;
                           final email = state.email;
                           final password = state.password;
                           print('Email: $email');
                           print('Password: $password');
+                          print('Name: $name');
+
+                          context.push('/sign-phone-number');
                         }
                       },
                     ),
 
+                    TermsAndConditionsText(
+                      onTermsTap: () {
+                        // Navigate to terms and conditions page
+                        print('Terms and conditions clicked');
+                      },
+                      onPrivacyTap: () {
+                        // Navigate to privacy policy page
+                        print('Privacy policy clicked');
+                      },
+                    ),
+
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Text(
-                        "Or",
+                        "Or connect with",
                         style: TextStyle(
                           color: AppColors.lightGray,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
