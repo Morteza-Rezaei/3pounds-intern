@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
 import 'package:food_delivery/core/enums/auth_field_type.dart';
-import 'package:food_delivery/features/auth/bloc/sign_in_bloc/sign_in_bloc.dart';
-import 'package:food_delivery/features/auth/widget/auth_button.dart';
-import 'package:food_delivery/features/auth/widget/auth_textfield.dart';
-import 'package:food_delivery/features/auth/widget/section_sub_title.dart';
-import 'package:food_delivery/features/auth/widget/section_title.dart';
-import 'package:food_delivery/features/auth/widget/social_signin_button.dart';
+import 'package:food_delivery/features/auth/presentation/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_button.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_textfield.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_sub_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/social_signin_button.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInPage extends StatelessWidget {
@@ -22,11 +22,25 @@ class SignInPage extends StatelessWidget {
     // true means the password is hidden
     // false means the password is visible
     final obscurePasswordNotifier = ValueNotifier<bool>(true);
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
-    return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: Form(
+    return Scaffold(
+      body: BlocConsumer<SignInBloc, SignInState>(
+        listener: (context, state) {
+          if (state is SignInSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Welcome back, ${state.user.email}')),
+            );
+            // Navigate to home
+          } else if (state is SignInError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+        },
+        builder: (context, state) {
+          return Form(
             key: formKey,
             child: SafeArea(
               child: SingleChildScrollView(
@@ -50,18 +64,14 @@ class SignInPage extends StatelessWidget {
                     AuthTextField(
                       labelText: 'Email',
                       fieldType: AuthFieldType.email,
-                      onChanged: (value) {
-                        context.read<SignInBloc>().add(EmailEvent(value));
-                      },
+                      controller: emailController,
                     ),
 
                     AuthTextField(
                       labelText: 'Password',
                       fieldType: AuthFieldType.password,
                       obscurePasswordNotifier: obscurePasswordNotifier,
-                      onChanged: (value) {
-                        context.read<SignInBloc>().add(PasswordEvent(value));
-                      },
+                      controller: passwordController,
                     ),
 
                     Row(
@@ -90,11 +100,12 @@ class SignInPage extends StatelessWidget {
                       text: "SIGN IN",
                       onPressed: () {
                         if (formKey.currentState?.validate() ?? false) {
-                          // for now just print the email and password form the bloc
-                          final email = state.email;
-                          final password = state.password;
-                          print('Email: $email');
-                          print('Password: $password');
+                          context.read<SignInBloc>().add(
+                            SignInRequested(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
                         }
                       },
                     ),
@@ -134,9 +145,9 @@ class SignInPage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

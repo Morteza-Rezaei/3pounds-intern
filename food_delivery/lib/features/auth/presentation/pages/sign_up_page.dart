@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
 import 'package:food_delivery/core/enums/auth_field_type.dart';
-import 'package:food_delivery/features/auth/bloc/sign_up_bloc/sign_up_bloc.dart';
-import 'package:food_delivery/features/auth/widget/auth_button.dart';
-import 'package:food_delivery/features/auth/widget/auth_textfield.dart';
-import 'package:food_delivery/features/auth/widget/section_sub_title.dart';
-import 'package:food_delivery/features/auth/widget/section_title.dart';
-import 'package:food_delivery/features/auth/widget/social_signin_button.dart';
-import 'package:food_delivery/features/auth/widget/term_conditions_texts.dart';
+import 'package:food_delivery/features/auth/presentation/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_button.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_textfield.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_sub_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/social_signin_button.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/term_conditions_texts.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatelessWidget {

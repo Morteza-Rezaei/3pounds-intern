@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
-import 'package:food_delivery/features/auth/bloc/sign_up_bloc/sign_up_bloc.dart';
-import 'package:food_delivery/features/auth/widget/auth_button.dart';
-import 'package:food_delivery/features/auth/widget/countdown_timer.dart';
-import 'package:food_delivery/features/auth/widget/section_sub_title.dart';
-import 'package:food_delivery/features/auth/widget/section_title.dart';
-import 'package:food_delivery/features/auth/widget/term_conditions_texts.dart';
+import 'package:food_delivery/features/auth/presentation/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_button.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/countdown_timer.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_sub_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/term_conditions_texts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

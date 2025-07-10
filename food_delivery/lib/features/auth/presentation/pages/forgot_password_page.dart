@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/paths.dart';
 import 'package:food_delivery/core/enums/auth_field_type.dart';
-import 'package:food_delivery/features/auth/bloc/forgot_password_bloc/forgot_password_bloc.dart';
-import 'package:food_delivery/features/auth/widget/auth_button.dart';
-import 'package:food_delivery/features/auth/widget/auth_textfield.dart';
-import 'package:food_delivery/features/auth/widget/section_sub_title.dart';
-import 'package:food_delivery/features/auth/widget/section_title.dart';
+import 'package:food_delivery/features/auth/presentation/blocs/forgot_password_bloc/forgot_password_bloc.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_button.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/auth_textfield.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_sub_title.dart';
+import 'package:food_delivery/features/auth/presentation/widgets/section_title.dart';
 import 'package:go_router/go_router.dart';
 
 class ForgotPasswordPage extends StatelessWidget {

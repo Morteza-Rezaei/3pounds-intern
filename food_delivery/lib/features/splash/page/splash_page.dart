@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
+import 'package:food_delivery/features/auth/data/datasources/hive_user_service.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
@@ -13,16 +15,30 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final HiveUserService _hiveUserService = HiveUserService();
+
   @override
   void initState() {
     super.initState();
-    _navigateToLanding();
+    _initApp();
   }
 
-  _navigateToLanding() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
+  Future<void> _initApp() async {
+    // Firebase başlat
+    await Firebase.initializeApp();
+
+    // (Opsiyonel gecikme) loading efekti gibi
+    await Future.delayed(const Duration(seconds: 1));
+
+    // Hive’dan login durumu kontrolü
+    final email = await _hiveUserService.getUserEmail();
+
+    if (!mounted) return;
+
+    if (email != null && email.isNotEmpty) {
       context.go('/welcome');
+    } else {
+      context.go('/sign-in');
     }
   }
 
