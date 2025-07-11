@@ -1,10 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
-import 'package:food_delivery/features/auth/data/datasources/hive_user_service.dart';
+import 'package:food_delivery/shared/services/hive_user_service.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,7 +15,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  final HiveUserService _hiveUserService = HiveUserService();
+  final HiveUserService _hive = HiveUserService();
+  final firebaseUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -24,19 +25,17 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _initApp() async {
-    // Firebase başlat
-    await Firebase.initializeApp();
-
-    // (Opsiyonel gecikme) loading efekti gibi
     await Future.delayed(const Duration(seconds: 1));
 
-    // Hive’dan login durumu kontrolü
-    final email = await _hiveUserService.getUserEmail();
+    final isFirst = await _hive.isFirstOpen();
+    final uid = await _hive.getUserId();
 
     if (!mounted) return;
 
-    if (email != null && email.isNotEmpty) {
+    if (isFirst) {
       context.go('/welcome');
+    } else if (firebaseUser != null && uid != null && uid.isNotEmpty) {
+      context.go('/home');
     } else {
       context.go('/sign-in');
     }

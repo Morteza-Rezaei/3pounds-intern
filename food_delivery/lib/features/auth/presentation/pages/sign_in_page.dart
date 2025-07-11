@@ -30,9 +30,9 @@ class SignInPage extends StatelessWidget {
         listener: (context, state) {
           if (state is SignInSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Welcome back, ${state.user.email}')),
+              SnackBar(content: Text('Welcome back, ${state.user.uid}')),
             );
-            // Navigate to home
+            context.go('/home');
           } else if (state is SignInError) {
             ScaffoldMessenger.of(
               context,

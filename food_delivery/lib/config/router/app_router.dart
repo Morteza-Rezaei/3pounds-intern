@@ -8,9 +8,10 @@ import 'package:food_delivery/features/auth/presentation/pages/sign_in_page.dart
 import 'package:food_delivery/features/auth/presentation/pages/sign_phone_number_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/verify_phone_number.dart';
-import 'package:food_delivery/features/splash/page/splash_page.dart';
-import 'package:food_delivery/features/welcome/bloc/welcome_bloc.dart';
-import 'package:food_delivery/features/welcome/page/welcome_page.dart';
+import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
+import 'package:food_delivery/features/splash/presentation/page/splash_page.dart';
+import 'package:food_delivery/features/welcome/presentation/bloc/welcome_bloc.dart';
+import 'package:food_delivery/features/welcome/presentation/page/welcome_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -18,6 +19,7 @@ final GoRouter appRouter = GoRouter(
   debugLogDiagnostics: true,
   routes: [
     GoRoute(path: '/splash', builder: (context, state) => const SplashPage()),
+    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
     GoRoute(
       path: '/welcome',
       builder: (context, state) => BlocProvider(

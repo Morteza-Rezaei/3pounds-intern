@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery/shared/services/hive_user_service.dart';
 import 'package:food_delivery/shared/utils/firebase_error_mapper.dart';
 import 'package:food_delivery/features/auth/data/datasources/firebase_auth_service.dart';
-import 'package:food_delivery/features/auth/data/datasources/hive_user_service.dart';
+
 import 'package:food_delivery/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:food_delivery/features/auth/domain/entities/user_entity.dart';
 import 'package:food_delivery/features/auth/domain/usecases/sign_in_use_case.dart';

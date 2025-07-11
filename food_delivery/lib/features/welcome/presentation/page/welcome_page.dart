@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
 import 'package:food_delivery/core/constants/paths.dart';
-import 'package:food_delivery/features/welcome/bloc/welcome_bloc.dart';
-import 'package:food_delivery/features/welcome/widget/page_indicator.dart';
-import 'package:food_delivery/features/welcome/widget/page_items.dart';
+import 'package:food_delivery/features/welcome/presentation/bloc/welcome_bloc.dart';
+import 'package:food_delivery/features/welcome/presentation/widgets/page_indicator.dart';
+import 'package:food_delivery/features/welcome/presentation/widgets/page_items.dart';
 import 'package:go_router/go_router.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -70,6 +70,9 @@ class WelcomePage extends StatelessWidget {
                               curve: Curves.easeInOut,
                             );
                           } else {
+                            context.read<WelcomeBloc>().add(
+                              MarkFirstOpenEvent(),
+                            );
                             context.go('/sign-in');
                           }
                         },
@@ -80,6 +83,7 @@ class WelcomePage extends StatelessWidget {
                     SizedBox(height: 50.h),
                     TextButton(
                       onPressed: () {
+                        context.read<WelcomeBloc>().add(MarkFirstOpenEvent());
                         context.go('/sign-in');
                       },
                       child: Text(

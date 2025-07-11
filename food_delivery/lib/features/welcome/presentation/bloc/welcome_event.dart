@@ -6,3 +6,5 @@ class PageChangedEvent extends WelcomeEvent {
   final int pageIndex;
   PageChangedEvent(this.pageIndex);
 }
+
+class MarkFirstOpenEvent extends WelcomeEvent {}

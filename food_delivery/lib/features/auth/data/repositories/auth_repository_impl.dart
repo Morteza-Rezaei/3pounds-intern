@@ -1,7 +1,7 @@
 import 'package:food_delivery/features/auth/data/datasources/firebase_auth_service.dart';
-import 'package:food_delivery/features/auth/data/datasources/hive_user_service.dart';
 import 'package:food_delivery/features/auth/domain/entities/user_entity.dart';
 import 'package:food_delivery/features/auth/domain/repositories/auth_repository.dart';
+import 'package:food_delivery/shared/services/hive_user_service.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuthService firebaseService;
@@ -16,8 +16,8 @@ class AuthRepositoryImpl implements AuthRepository {
       password,
     );
     if (user != null) {
-      await hiveService.saveUserEmail(user.email ?? '');
-      return UserEntity(email: user.email ?? '');
+      await hiveService.saveUserId(user.uid);
+      return UserEntity(uid: user.uid);
     } else {
       throw Exception('Login failed');
     }
@@ -26,6 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() async {
     await firebaseService.signOut();
-    await hiveService.clearUser();
+    await hiveService.clearUserId();
+    //await hiveService.clearFirstOpen();
   }
 }
