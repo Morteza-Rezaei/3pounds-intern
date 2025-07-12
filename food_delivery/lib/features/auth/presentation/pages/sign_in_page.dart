@@ -136,7 +136,9 @@ class SignInPage extends StatelessWidget {
                       iconPath: AppPaths.googleIcon,
                       onPressed: () {
                         // Handle Google sign-in
-                        print('Google sign-in clicked');
+                        context.read<SignInBloc>().add(
+                          SignInWithGooglePressed(),
+                        );
                       },
                     ),
 

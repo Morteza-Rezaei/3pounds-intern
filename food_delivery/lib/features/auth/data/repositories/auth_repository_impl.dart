@@ -24,9 +24,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<UserEntity> signInWithGoogle() async {
+    final user = await firebaseService.signInWithGoogle();
+    if (user != null) {
+      await hiveService.saveUserId(user.uid);
+
+      return UserEntity(uid: user.uid);
+    } else {
+      throw Exception("Google ile giriş başarısız");
+    }
+  }
+
+  @override
   Future<void> signOut() async {
     await firebaseService.signOut();
     await hiveService.clearUserId();
-    //await hiveService.clearFirstOpen();
+    await hiveService.clearFirstOpen();
   }
 }

@@ -10,3 +10,5 @@ class SignInRequested extends SignInEvent {
 
   SignInRequested({required this.email, required this.password});
 }
+
+class SignInWithGooglePressed extends SignInEvent {}
