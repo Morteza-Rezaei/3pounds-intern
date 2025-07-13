@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery/features/auth/domain/usecases/check_email_verified_use_case.dart';
 import 'package:food_delivery/features/auth/domain/usecases/sign_in_with_google_case.dart';
 import 'package:food_delivery/shared/services/hive_user_service.dart';
 import 'package:food_delivery/shared/utils/firebase_error_mapper.dart';
@@ -13,18 +14,28 @@ part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   late final SignInUseCase signInUseCase;
+  late final SignInWithGoogleUseCase signInWithGoogleUseCase;
+  late final CheckEmailVerifiedUseCase checkEmailVerifiedUseCase;
 
   SignInBloc() : super(SignInInitial()) {
     final firebase = FirebaseAuthService();
     final hive = HiveUserService();
     final repo = AuthRepositoryImpl(firebase, hive);
+
     signInUseCase = SignInUseCase(repo);
-    final signInWithGoogleUseCase = SignInWithGoogleUseCase(repo);
+    signInWithGoogleUseCase = SignInWithGoogleUseCase(repo);
+    checkEmailVerifiedUseCase = CheckEmailVerifiedUseCase(repo);
 
     on<SignInRequested>((event, emit) async {
       emit(SignInLoading());
       try {
         final user = await signInUseCase(event.email, event.password);
+
+        final isVerified = await checkEmailVerifiedUseCase();
+        if (!isVerified) {
+          emit(SignInError('Email not verified. Please check your inbox.'));
+          return;
+        }
         emit(SignInSuccess(user));
       } catch (e) {
         final message = FirebaseErrorMapper.map(e);
@@ -35,8 +46,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInWithGooglePressed>((event, emit) async {
       emit(SignInLoading());
       try {
-        final user =
-            await signInWithGoogleUseCase(); // bu usecase üstten gelmeli
+        final user = await signInWithGoogleUseCase();
         emit(SignInSuccess(user));
       } catch (e) {
         final message = FirebaseErrorMapper.map(e);

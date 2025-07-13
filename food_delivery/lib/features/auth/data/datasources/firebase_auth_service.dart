@@ -34,4 +34,27 @@ class FirebaseAuthService {
     final userCredential = await _firebaseAuth.signInWithCredential(credential);
     return userCredential.user;
   }
+
+  Future<User?> signUpWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential.user;
+  }
+
+  Future<void> sendEmailVerification(User user) async {
+    if (!user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+  }
+
+  Future<bool> isEmailVerified() async {
+    final user = _firebaseAuth.currentUser;
+    await user?.reload(); // güncel doğrulama durumunu almak için
+    return user?.emailVerified ?? false;
+  }
 }

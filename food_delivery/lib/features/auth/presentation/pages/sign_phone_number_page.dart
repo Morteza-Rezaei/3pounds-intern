@@ -36,23 +36,13 @@ class SignPhoneNumberPage extends StatelessWidget {
                     AuthTextField(
                       labelText: 'Phone Number',
                       fieldType: AuthFieldType.phone,
-                      onChanged: (value) {
-                        context.read<SignUpBloc>().add(PhoneNumberEvent(value));
-                      },
+                      onChanged: (value) {},
                     ),
 
                     AuthButton(
                       text: "SIGN UP",
                       onPressed: () {
                         if (formKey.currentState?.validate() ?? false) {
-                          // for now just print the email and password form the bloc
-                          final name = state.username;
-                          final email = state.email;
-                          final password = state.password;
-                          print('Email: $email');
-                          print('Password: $password');
-                          print('Name: $name');
-
                           context.push('/verify-phone-number');
                         }
                       },

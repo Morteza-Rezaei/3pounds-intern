@@ -29,7 +29,7 @@ class VerifyPhoneNumber extends StatelessWidget {
                     SectionTitle(text: 'Verify phone number'),
                     SectionSubtitle(
                       text: 'Enter the 4-Digit code sent to you on \n',
-                      clickableText: state.phoneNumber,
+                      clickableText: '+90 123 456 78 90',
                     ),
 
                     Padding(

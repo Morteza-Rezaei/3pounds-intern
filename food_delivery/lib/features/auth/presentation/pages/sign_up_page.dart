@@ -23,120 +23,144 @@ class SignUpPage extends StatelessWidget {
     // true means the password is hidden
     // false means the password is visible
     final obscurePasswordNotifier = ValueNotifier<bool>(true);
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController fullNameController = TextEditingController();
 
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return Scaffold(
-          body: Form(
-            key: formKey,
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 20.h),
-                    SectionTitle(
-                      text: 'Get started with\nHunger ',
-                      highlightedText: 'Hub',
+          body: BlocConsumer<SignUpBloc, SignUpState>(
+            listener: (context, state) {
+              if (state is SignUpSuccess && !state.fromGoogle) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Doğrulama e-postası gönderildi. Lütfen hesabınızı onaylayın.',
                     ),
+                  ),
+                );
 
-                    SectionSubtitle(
-                      text: 'If you already have an account,\nplease ',
-                      clickableText: 'Sign in here',
-                      onTap: () {
-                        // Navigate to sign in page
-                        context.go('/sign-in');
-                      },
-                    ),
+                context.go('/sign-in');
+              } else if (state is SignUpSuccess && state.fromGoogle) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Google ile giriş başarılı!')),
+                );
 
-                    AuthTextField(
-                      labelText: 'Full Name',
-                      fieldType: AuthFieldType.username,
-                      onChanged: (value) {
-                        context.read<SignUpBloc>().add(EmailEvent(value));
-                      },
-                    ),
-
-                    AuthTextField(
-                      labelText: 'Email',
-                      fieldType: AuthFieldType.email,
-                      onChanged: (value) {
-                        context.read<SignUpBloc>().add(EmailEvent(value));
-                      },
-                    ),
-
-                    AuthTextField(
-                      labelText: 'Password',
-                      fieldType: AuthFieldType.password,
-                      obscurePasswordNotifier: obscurePasswordNotifier,
-                      onChanged: (value) {
-                        context.read<SignUpBloc>().add(PasswordEvent(value));
-                      },
-                    ),
-
-                    // just a test button
-                    AuthButton(
-                      text: "SIGN UP",
-                      onPressed: () {
-                        if (formKey.currentState?.validate() ?? false) {
-                          // for now just print the email and password form the bloc
-                          final name = state.username;
-                          final email = state.email;
-                          final password = state.password;
-                          print('Email: $email');
-                          print('Password: $password');
-                          print('Name: $name');
-
-                          context.push('/sign-phone-number');
-                        }
-                      },
-                    ),
-
-                    TermsAndConditionsText(
-                      onTermsTap: () {
-                        // Navigate to terms and conditions page
-                        print('Terms and conditions clicked');
-                      },
-                      onPrivacyTap: () {
-                        // Navigate to privacy policy page
-                        print('Privacy policy clicked');
-                      },
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      child: Text(
-                        "Or connect with",
-                        style: TextStyle(
-                          color: AppColors.lightGray,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
+                context.go('/home');
+              } else if (state is SignUpFailure) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+              }
+            },
+            builder: (context, state) {
+              return Form(
+                key: formKey,
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20.h),
+                        SectionTitle(
+                          text: 'Get started with\nHunger ',
+                          highlightedText: 'Hub',
                         ),
-                      ),
-                    ),
 
-                    SocialSignInButton(
-                      text: 'Connect with Facebook',
-                      iconPath: AppPaths.facebookIcon,
-                      onPressed: () {
-                        // Handle Facebook sign-in
-                        print('Facebook sign-in clicked');
-                      },
-                    ),
+                        SectionSubtitle(
+                          text: 'If you already have an account,\nplease ',
+                          clickableText: 'Sign in here',
+                          onTap: () {
+                            // Navigate to sign in page
+                            context.go('/sign-in');
+                          },
+                        ),
 
-                    SocialSignInButton(
-                      text: 'Connect with Google',
-                      iconPath: AppPaths.googleIcon,
-                      onPressed: () {
-                        // Handle Google sign-in
-                        print('Google sign-in clicked');
-                      },
-                    ),
+                        AuthTextField(
+                          labelText: 'Full Name',
+                          fieldType: AuthFieldType.username,
+                          controller: fullNameController,
+                        ),
 
-                    SizedBox(height: 10.h),
-                  ],
+                        AuthTextField(
+                          labelText: 'Email',
+                          fieldType: AuthFieldType.email,
+                          controller: emailController,
+                        ),
+
+                        AuthTextField(
+                          labelText: 'Password',
+                          fieldType: AuthFieldType.password,
+                          obscurePasswordNotifier: obscurePasswordNotifier,
+                          controller: passwordController,
+                        ),
+
+                        // just a test button
+                        AuthButton(
+                          text: "SIGN UP",
+                          onPressed: () {
+                            if (formKey.currentState?.validate() ?? false) {
+                              context.read<SignUpBloc>().add(
+                                SignUpSubmitted(
+                                  name: fullNameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+
+                        TermsAndConditionsText(
+                          onTermsTap: () {
+                            // Navigate to terms and conditions page
+                            print('Terms and conditions clicked');
+                          },
+                          onPrivacyTap: () {
+                            // Navigate to privacy policy page
+                            print('Privacy policy clicked');
+                          },
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            "Or connect with",
+                            style: TextStyle(
+                              color: AppColors.lightGray,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        SocialSignInButton(
+                          text: 'Connect with Facebook',
+                          iconPath: AppPaths.facebookIcon,
+                          onPressed: () {
+                            // Handle Facebook sign-in
+                            print('Facebook sign-in clicked');
+                          },
+                        ),
+
+                        SocialSignInButton(
+                          text: 'Connect with Google',
+                          iconPath: AppPaths.googleIcon,
+                          onPressed: () {
+                            // Handle Google sign-in
+                            context.read<SignUpBloc>().add(
+                              SignInWithGooglePressed(),
+                            );
+                          },
+                        ),
+
+                        SizedBox(height: 10.h),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         );
       },
