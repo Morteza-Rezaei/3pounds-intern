@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               final repo = AuthRepositoryImpl(firebase, hive);
               final signOutUseCase = SignOutUseCase(repo);
               await signOutUseCase();
-              context.go('/splash'); // çıkış sonrası splash'e yönlen
+              context.go('/'); // çıkış sonrası splash'e yönlen
             },
             icon: const Icon(Icons.logout),
           ),

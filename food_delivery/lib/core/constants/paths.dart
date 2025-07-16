@@ -9,4 +9,6 @@ class AppPaths {
   static const String googleIcon = 'assets/auth/google.png';
 
   static const String backIcon = 'assets/app/back.png';
+
+  static const String completeAddress = 'assets/images/complete_address.png';
 }

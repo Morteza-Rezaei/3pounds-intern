@@ -57,4 +57,8 @@ class FirebaseAuthService {
     await user?.reload(); // güncel doğrulama durumunu almak için
     return user?.emailVerified ?? false;
   }
+
+  Future<void> sendPasswordResetEmail(String email) {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 }

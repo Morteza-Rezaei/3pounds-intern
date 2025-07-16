@@ -34,7 +34,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         if (user != null) {
           emit(SignUpSuccess(user));
         } else {
-          emit(SignUpFailure("Kayıt başarısız."));
+          emit(SignUpFailure("Sign up failed. Please try again."));
         }
       } catch (e) {
         emit(SignUpFailure(e.toString()));

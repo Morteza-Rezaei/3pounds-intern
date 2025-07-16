@@ -74,6 +74,25 @@ class AuthTextField extends StatelessWidget {
           return 'Please enter a valid phone number';
         }
         break;
+
+      case AuthFieldType.text:
+        if (value == null || value.isEmpty) {
+          return 'This field cannot be empty';
+        }
+        break;
+      case AuthFieldType.number:
+        if (value == null || value.isEmpty) {
+          return 'This field cannot be empty';
+        }
+
+      case AuthFieldType.address:
+        if (value == null || value.isEmpty) {
+          return 'Please enter your address';
+        }
+        if (value.length < 5) {
+          return 'Address must be at least 5 characters';
+        }
+        break;
     }
     return null;
   }
@@ -81,11 +100,17 @@ class AuthTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPassword = fieldType == AuthFieldType.password;
-    final keyboardType = fieldType == AuthFieldType.email
-        ? TextInputType.emailAddress
-        : fieldType == AuthFieldType.phone
-        ? TextInputType.phone
-        : TextInputType.text;
+
+    final keyboardType = switch (fieldType) {
+      AuthFieldType.email => TextInputType.emailAddress,
+      AuthFieldType.phone => TextInputType.phone,
+      AuthFieldType.number => TextInputType.number,
+      _ => TextInputType.text,
+    };
+
+    final prefixIcon = fieldType == AuthFieldType.address
+        ? const Icon(Icons.location_on_outlined)
+        : null;
 
     return Container(
       width: double.infinity,
@@ -134,6 +159,7 @@ class AuthTextField extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText:
                         hintText ?? 'Enter your ${labelText.toLowerCase()}',
+                    prefixIcon: prefixIcon,
                   ),
                   validator: _getValidator,
                   onChanged: onChanged,

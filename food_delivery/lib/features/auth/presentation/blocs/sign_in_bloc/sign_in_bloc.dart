@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/features/auth/domain/usecases/check_email_verified_use_case.dart';
+import 'package:food_delivery/features/auth/domain/usecases/check_user_profile_completed_use_case.dart';
 import 'package:food_delivery/features/auth/domain/usecases/sign_in_with_google_case.dart';
 import 'package:food_delivery/shared/services/hive_user_service.dart';
 import 'package:food_delivery/shared/utils/firebase_error_mapper.dart';
@@ -16,6 +17,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   late final SignInUseCase signInUseCase;
   late final SignInWithGoogleUseCase signInWithGoogleUseCase;
   late final CheckEmailVerifiedUseCase checkEmailVerifiedUseCase;
+  late final CheckUserProfileCompletedUseCase checkUserProfileCompletedUseCase;
 
   SignInBloc() : super(SignInInitial()) {
     final firebase = FirebaseAuthService();
@@ -25,6 +27,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     signInUseCase = SignInUseCase(repo);
     signInWithGoogleUseCase = SignInWithGoogleUseCase(repo);
     checkEmailVerifiedUseCase = CheckEmailVerifiedUseCase(repo);
+    checkUserProfileCompletedUseCase = CheckUserProfileCompletedUseCase(repo);
 
     on<SignInRequested>((event, emit) async {
       emit(SignInLoading());
@@ -36,7 +39,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           emit(SignInError('Email not verified. Please check your inbox.'));
           return;
         }
-        emit(SignInSuccess(user));
+
+        final isCompleted = await checkUserProfileCompletedUseCase(user.uid);
+
+        if (isCompleted) {
+          emit(SignInSuccess(user));
+        } else {
+          emit(SignInNeedsProfileCompletion(user));
+        }
       } catch (e) {
         final message = FirebaseErrorMapper.map(e);
         emit(SignInError(message));

@@ -33,6 +33,11 @@ class SignInPage extends StatelessWidget {
               SnackBar(content: Text('Welcome back, ${state.user.uid}')),
             );
             context.go('/home');
+          } else if (state is SignInNeedsProfileCompletion) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please complete your profile')),
+            );
+            context.go('/complete-phone');
           } else if (state is SignInError) {
             ScaffoldMessenger.of(
               context,

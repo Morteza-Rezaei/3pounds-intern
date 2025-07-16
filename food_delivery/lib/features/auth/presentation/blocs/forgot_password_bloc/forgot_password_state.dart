@@ -1,14 +1,17 @@
 part of 'forgot_password_bloc.dart';
 
-class ForgotPasswordState {
-  // The user's email input.
-  final String email;
+abstract class ForgotPasswordState {
+  const ForgotPasswordState();
+}
 
-  // Constructor with an optional email parameter.
-  const ForgotPasswordState({this.email = ''});
+class ForgotPasswordInitial extends ForgotPasswordState {}
 
-  // Creates a new ForgotPasswordState with updated values.
-  ForgotPasswordState copyWith({String? email}) {
-    return ForgotPasswordState(email: email ?? this.email);
-  }
+class ForgotPasswordLoading extends ForgotPasswordState {}
+
+class ForgotPasswordSuccess extends ForgotPasswordState {}
+
+class ForgotPasswordFailure extends ForgotPasswordState {
+  final String error;
+
+  const ForgotPasswordFailure(this.error);
 }

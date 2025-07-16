@@ -36,7 +36,7 @@ class SignUpPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Doğrulama e-postası gönderildi. Lütfen hesabınızı onaylayın.',
+                      'A verification email has been sent to ${state.user.email}.',
                     ),
                   ),
                 );
@@ -44,7 +44,7 @@ class SignUpPage extends StatelessWidget {
                 context.go('/sign-in');
               } else if (state is SignUpSuccess && state.fromGoogle) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Google ile giriş başarılı!')),
+                  SnackBar(content: Text('Welcome back, ${state.user.uid}')),
                 );
 
                 context.go('/home');
