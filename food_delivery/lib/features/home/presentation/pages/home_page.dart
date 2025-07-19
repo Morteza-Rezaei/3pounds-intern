@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/features/auth/data/datasources/firebase_auth_service.dart';
-import 'package:food_delivery/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:food_delivery/features/auth/domain/usecases/sign_out_use_case.dart';
-import 'package:go_router/go_router.dart';
-import 'package:food_delivery/shared/services/hive_user_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery/features/home/presentation/widgets/category_card.dart';
+import 'package:food_delivery/features/home/presentation/widgets/greeting_text.dart';
+import 'package:food_delivery/shared/dummy/dummy_categories.dart';
+import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
+import 'package:food_delivery/shared/widgets/restaurant_card.dart';
+import 'package:food_delivery/features/home/presentation/widgets/search_textfield.dart';
+import 'package:food_delivery/features/home/presentation/widgets/section_header.dart';
+import 'package:food_delivery/shared/widgets/app_bar_address_title.dart';
+import 'package:food_delivery/shared/widgets/app_bar_cart.dart';
+import 'package:food_delivery/shared/widgets/app_bar_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,27 +18,34 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ana Sayfa"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final firebase = FirebaseAuthService();
-              final hive = HiveUserService();
-              final repo = AuthRepositoryImpl(firebase, hive);
-              final signOutUseCase = SignOutUseCase(repo);
-              await signOutUseCase();
-              context.go('/'); // çıkış sonrası splash'e yönlen
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+        leading: AppBarMenu(),
+        title: AppBarAddressTitle(),
+        actions: [AppBarCart()],
       ),
-      body: FutureBuilder<String?>(
-        future: HiveUserService().getUserId(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return const CircularProgressIndicator();
-          return Center(child: Text("Hoşgeldin UID: ${snapshot.data}"));
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GreetingText(),
+            SearchTextField(),
+
+            SectionHeader(title: 'All Categories'),
+            SizedBox(
+              height: 180.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: dummyCategories.length,
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                itemBuilder: (context, index) {
+                  return CategoryCard(category: dummyCategories[index]);
+                },
+              ),
+            ),
+
+            SectionHeader(title: 'Open Restaurants'),
+            SizedBox(height: 8.h),
+            ...dummyRestaurants.map((e) => RestaurantCard(restaurant: e)),
+          ],
+        ),
       ),
     );
   }

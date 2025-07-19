@@ -21,6 +21,9 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 80,
+        leadingWidth: 80,
+        titleSpacing: 4,
       ),
       elevatedButtonTheme: elevatedButtonTheme(),
       outlinedButtonTheme: outlinedButtonTheme(),

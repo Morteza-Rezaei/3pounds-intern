@@ -10,6 +10,7 @@ import 'package:food_delivery/features/auth/presentation/pages/forgot_password_p
 import 'package:food_delivery/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
+import 'package:food_delivery/features/search/presentation/pages/search_page.dart';
 import 'package:food_delivery/features/splash/presentation/page/splash_page.dart';
 import 'package:food_delivery/features/welcome/presentation/bloc/welcome_bloc.dart';
 import 'package:food_delivery/features/welcome/presentation/page/welcome_page.dart';
@@ -62,6 +63,13 @@ final GoRouter appRouter = GoRouter(
         create: (context) => CompleteAddressBloc(),
         child: CompleteAddressPage(),
       ),
+    ),
+    GoRoute(
+      path: '/search',
+      builder: (context, state) {
+        final keyword = state.uri.queryParameters['keyword'] ?? '';
+        return SearchPage(searchTerm: keyword);
+      },
     ),
   ],
 );

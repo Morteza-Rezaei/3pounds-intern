@@ -4,7 +4,7 @@ class UserEntity {
   final String? name;
 
   UserEntity({required this.uid, this.email, this.name});
-
+  // todo: move to extension and dto , model relation
   Map<String, dynamic> toMap() {
     return {'uid': uid, 'email': email, 'name': name};
   }
