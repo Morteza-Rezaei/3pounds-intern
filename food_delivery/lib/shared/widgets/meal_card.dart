@@ -5,99 +5,105 @@ import 'package:food_delivery/shared/models/meal_entity.dart';
 class MealCard extends StatelessWidget {
   final MealEntity meal;
   final bool addToCartVisible;
+  // function
+  final VoidCallback mealDetailCallback;
 
   const MealCard({
     super.key,
     required this.meal,
     this.addToCartVisible = false,
+    required this.mealDetailCallback,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 180.h,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          // Gölge burada ayrı bir layer olarak çizilir
-          Positioned.fill(
-            top: 50.h,
-            child: CustomPaint(painter: ShadowPainter(radius: 24.r)),
-          ),
+    return GestureDetector(
+      onTap: mealDetailCallback,
+      child: SizedBox(
+        height: 180.h,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // Gölge burada ayrı bir layer olarak çizilir
+            Positioned.fill(
+              top: 50.h,
+              child: CustomPaint(painter: ShadowPainter(radius: 24.r)),
+            ),
 
-          Positioned.fill(
-            top: 50.h,
-            child: ClipPath(
-              clipper: TrapezoidClipper(radius: 24.r),
-              child: Container(
-                padding: EdgeInsets.only(top: 48.h, left: 12.w, right: 12.w),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      meal.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
+            Positioned.fill(
+              top: 50.h,
+              child: ClipPath(
+                clipper: TrapezoidClipper(radius: 24.r),
+                child: Container(
+                  padding: EdgeInsets.only(top: 48.h, left: 12.w, right: 12.w),
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        meal.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      meal.restaurantName,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade600,
+                      SizedBox(height: 4.h),
+                      Text(
+                        meal.restaurantName,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade600,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    if (addToCartVisible) ...[
-                      SizedBox(height: 8.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '\$${meal.price}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                              color: Colors.black,
+                      if (addToCartVisible) ...[
+                        SizedBox(height: 8.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$${meal.price}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: 32.w,
-                            height: 32.w,
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              shape: BoxShape.circle,
+                            Container(
+                              width: 32.w,
+                              height: 32.w,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 20.sp,
+                              ),
                             ),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 20.sp,
-                            ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
 
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Image.asset(meal.imageUrl, height: 100.h),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Image.asset(meal.imageUrl, height: 100.h),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
 import 'package:food_delivery/shared/widgets/back_button.dart';
 import 'package:food_delivery/shared/widgets/meal_card.dart';
 import 'package:food_delivery/shared/widgets/restaurant_card.dart';
+import 'package:go_router/go_router.dart';
 
 class FoodsPage extends StatelessWidget {
   final String? initialCategory;
@@ -100,6 +101,12 @@ class FoodsPage extends StatelessWidget {
                     return MealCard(
                       meal: filteredMeals[index],
                       addToCartVisible: true,
+                      mealDetailCallback: () {
+                        context.push(
+                          '/meal-detail',
+                          extra: filteredMeals[index],
+                        );
+                      },
                     );
                   },
                 );

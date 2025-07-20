@@ -7,6 +7,7 @@ import 'package:food_delivery/features/search/presentation/widgets/restaurant_mi
 import 'package:food_delivery/shared/dummy/dummy_categories.dart';
 import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
 import 'package:food_delivery/shared/widgets/app_bar_cart.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends StatelessWidget {
   final String searchTerm;
@@ -135,7 +136,12 @@ class SearchPage extends StatelessWidget {
                 childAspectRatio: 1 / 1,
               ),
               itemBuilder: (context, index) {
-                return MealCard(meal: allMeals[index]);
+                return MealCard(
+                  meal: allMeals[index],
+                  mealDetailCallback: () {
+                    context.push('/meal-detail', extra: allMeals[index]);
+                  },
+                );
               },
             ),
             SizedBox(height: 32.h),

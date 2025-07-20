@@ -11,10 +11,13 @@ class AppPaths {
   static const String completeAddress = 'assets/images/complete_address.png';
 
   static const String backIcon = 'assets/app/back.png';
+  static const String backIconWhite = 'assets/app/back_w.png';
   static const String menuIcon = 'assets/app/menu.png';
   static const String basketIcon = 'assets/app/basket.png';
   static const String searchIcon = 'assets/app/search.png';
   static const String filterIcon = 'assets/app/filter.png';
+  static const String restaurantIcon = 'assets/app/restaurant.png';
+  static const String ingredientIcon = 'assets/app/ingredient.png';
 
   static const String pansiFood = 'assets/images/pansi_food.png';
   static const String burgerFood = 'assets/images/burger_food.png';

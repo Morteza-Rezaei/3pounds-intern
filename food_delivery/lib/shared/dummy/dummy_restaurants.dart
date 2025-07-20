@@ -16,7 +16,8 @@ final dummyRestaurants = <RestaurantEntity>[
       MealEntity(
         name: 'Cheeseburger',
         restaurantName: 'Burger House',
-        description: 'Dana eti, cheddar peyniri, turşu, özel sos',
+        description:
+            'Dana eti, cheddar peyniri, turşu, özel sos ve ekmek ile hazırlanmıştır.\n',
         rating: 4.6,
         delivery: 'Ücretsiz',
         deliveryTime: '25-35 dk',
