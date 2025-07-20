@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
+  final VoidCallback? onSeeAllTapped;
 
-  const SectionHeader({super.key, required this.title});
+  const SectionHeader({super.key, required this.title, this.onSeeAllTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,7 @@ class SectionHeader extends StatelessWidget {
           ),
 
           GestureDetector(
-            onTap: () {
-              // Todo: Handle "See All" tap
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('See All tapped')));
-            },
+            onTap: onSeeAllTapped,
             child: Row(
               children: [
                 Text('See All', style: TextStyle(fontSize: 14.sp)),

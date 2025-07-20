@@ -9,6 +9,7 @@ import 'package:food_delivery/features/auth/presentation/pages/complete_phone_pa
 import 'package:food_delivery/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:food_delivery/features/foods/presentation/pages/foods_page.dart';
 import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
 import 'package:food_delivery/features/search/presentation/pages/search_page.dart';
 import 'package:food_delivery/features/splash/presentation/page/splash_page.dart';
@@ -69,6 +70,14 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final keyword = state.uri.queryParameters['keyword'] ?? '';
         return SearchPage(searchTerm: keyword);
+      },
+    ),
+
+    GoRoute(
+      path: '/foods',
+      builder: (context, state) {
+        final category = state.extra as String?;
+        return FoodsPage(initialCategory: category);
       },
     ),
   ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
+import 'package:food_delivery/shared/widgets/back_button.dart';
 import 'package:food_delivery/shared/widgets/meal_card.dart';
 import 'package:food_delivery/features/search/presentation/widgets/restaurant_mini_card.dart';
 import 'package:food_delivery/shared/dummy/dummy_categories.dart';
 import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
 import 'package:food_delivery/shared/widgets/app_bar_cart.dart';
-import 'package:food_delivery/shared/widgets/app_bar_menu.dart';
 
 class SearchPage extends StatelessWidget {
   final String searchTerm;
@@ -21,7 +21,7 @@ class SearchPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppBarMenu(),
+        leading: BackBtn(),
         title: const Text('Search'),
         actions: [AppBarCart()],
       ),

@@ -10,6 +10,7 @@ import 'package:food_delivery/features/home/presentation/widgets/section_header.
 import 'package:food_delivery/shared/widgets/app_bar_address_title.dart';
 import 'package:food_delivery/shared/widgets/app_bar_cart.dart';
 import 'package:food_delivery/shared/widgets/app_bar_menu.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,7 +29,12 @@ class HomePage extends StatelessWidget {
             GreetingText(),
             SearchTextField(),
 
-            SectionHeader(title: 'All Categories'),
+            SectionHeader(
+              title: 'All Categories',
+              onSeeAllTapped: () {
+                context.push('/foods', extra: null);
+              },
+            ),
             SizedBox(
               height: 180.h,
               child: ListView.builder(
@@ -36,7 +42,19 @@ class HomePage extends StatelessWidget {
                 itemCount: dummyCategories.length,
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                 itemBuilder: (context, index) {
-                  return CategoryCard(category: dummyCategories[index]);
+                  return CategoryCard(
+                    category: dummyCategories[index],
+                    onTap: () {
+                      // Handle category selection
+                      print(
+                        'Selected category: ${dummyCategories[index].name}',
+                      );
+                      context.push(
+                        '/foods',
+                        extra: dummyCategories[index].name,
+                      );
+                    },
+                  );
                 },
               ),
             ),
