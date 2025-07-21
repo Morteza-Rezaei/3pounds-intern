@@ -10,6 +10,7 @@ class AppPaths {
 
   static const String completeAddress = 'assets/images/complete_address.png';
 
+  static const String exit = 'assets/app/exit.png';
   static const String backIcon = 'assets/app/back.png';
   static const String backIconWhite = 'assets/app/back_w.png';
   static const String menuIcon = 'assets/app/menu.png';

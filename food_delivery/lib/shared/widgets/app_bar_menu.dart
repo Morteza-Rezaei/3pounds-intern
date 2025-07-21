@@ -12,9 +12,6 @@ class AppBarMenu extends StatelessWidget {
       icon: Image.asset(AppPaths.menuIcon, width: 45.w),
       onPressed: () {
         // todo: Handle menu action
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Menu tapped!')));
       },
     );
   }

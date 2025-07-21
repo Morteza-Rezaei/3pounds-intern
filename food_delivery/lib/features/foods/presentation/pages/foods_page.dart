@@ -6,6 +6,7 @@ import 'package:food_delivery/features/foods/presentation/widgets/category_filte
 import 'package:food_delivery/features/foods/presentation/widgets/icon_action_button.dart';
 import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
 import 'package:food_delivery/shared/widgets/back_button.dart';
+import 'package:food_delivery/shared/widgets/filter_dialog.dart.dart';
 import 'package:food_delivery/shared/widgets/meal_card.dart';
 import 'package:food_delivery/shared/widgets/restaurant_card.dart';
 import 'package:go_router/go_router.dart';
@@ -53,7 +54,15 @@ class FoodsPage extends StatelessWidget {
 
         actions: [
           IconActionButton(iconPath: AppPaths.searchIcon, onPressed: () {}),
-          IconActionButton(iconPath: AppPaths.filterIcon, onPressed: () {}),
+          IconActionButton(
+            iconPath: AppPaths.filterIcon,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => const FilterDialog(),
+              );
+            },
+          ),
         ],
       ),
 
