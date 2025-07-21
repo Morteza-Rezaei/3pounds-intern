@@ -12,11 +12,13 @@ import 'package:food_delivery/features/auth/presentation/pages/sign_up_page.dart
 import 'package:food_delivery/features/foods/presentation/pages/foods_page.dart';
 import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
 import 'package:food_delivery/features/meal_detail/presentation/pages/meal_detail_page.dart';
+import 'package:food_delivery/features/meal_detail/presentation/pages/restaurant_detail_page.dart';
 import 'package:food_delivery/features/search/presentation/pages/search_page.dart';
 import 'package:food_delivery/features/splash/presentation/page/splash_page.dart';
 import 'package:food_delivery/features/welcome/presentation/bloc/welcome_bloc.dart';
 import 'package:food_delivery/features/welcome/presentation/page/welcome_page.dart';
 import 'package:food_delivery/shared/models/meal_entity.dart';
+import 'package:food_delivery/shared/models/restaurant_entity.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -87,6 +89,13 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final meal = state.extra as MealEntity;
         return MealDetailPage(meal: meal);
+      },
+    ),
+    GoRoute(
+      path: '/restaurant-detail',
+      builder: (context, state) {
+        final restaurant = state.extra as RestaurantEntity;
+        return RestaurantDetailPage(restaurant: restaurant);
       },
     ),
   ],

@@ -5,7 +5,7 @@ import 'package:food_delivery/shared/models/meal_entity.dart';
 class MealCard extends StatelessWidget {
   final MealEntity meal;
   final bool addToCartVisible;
-  // function
+
   final VoidCallback mealDetailCallback;
 
   const MealCard({

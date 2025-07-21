@@ -6,7 +6,13 @@ import 'package:food_delivery/shared/models/restaurant_entity.dart';
 class RestaurantCard extends StatelessWidget {
   final RestaurantEntity restaurant;
 
-  const RestaurantCard({super.key, required this.restaurant});
+  final VoidCallback restaurantDetailCallback;
+
+  const RestaurantCard({
+    super.key,
+    required this.restaurant,
+    required this.restaurantDetailCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +21,16 @@ class RestaurantCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: Image.asset(
-              restaurant.imageUrl,
-              height: 180,
-              width: double.infinity,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: restaurantDetailCallback,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Image.asset(
+                restaurant.imageUrl,
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(

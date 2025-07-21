@@ -61,7 +61,14 @@ class HomePage extends StatelessWidget {
 
             SectionHeader(title: 'Open Restaurants'),
             SizedBox(height: 8.h),
-            ...dummyRestaurants.map((e) => RestaurantCard(restaurant: e)),
+            ...dummyRestaurants.map(
+              (e) => RestaurantCard(
+                restaurant: e,
+                restaurantDetailCallback: () {
+                  context.push('/restaurant-detail', extra: e);
+                },
+              ),
+            ),
           ],
         ),
       ),

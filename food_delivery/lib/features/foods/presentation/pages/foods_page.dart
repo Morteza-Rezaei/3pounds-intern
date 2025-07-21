@@ -120,7 +120,14 @@ class FoodsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20.sp),
               ),
             ),
-            ...dummyRestaurants.map((e) => RestaurantCard(restaurant: e)),
+            ...dummyRestaurants.map(
+              (e) => RestaurantCard(
+                restaurant: e,
+                restaurantDetailCallback: () {
+                  context.push('/restaurant-detail', extra: e);
+                },
+              ),
+            ),
           ],
         ),
       ),
