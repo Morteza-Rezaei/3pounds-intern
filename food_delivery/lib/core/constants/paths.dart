@@ -40,4 +40,12 @@ class AppPaths {
 
   static const String europeanPizza = 'assets/images/european_pizza.png';
   static const String buffaloPizza = 'assets/images/buffalo_pizza.png';
+
+  static const String cash = 'assets/app/cash.png';
+  static const String visa = 'assets/app/visa.png';
+  static const String mastercard = 'assets/app/mastercard.png';
+  static const String paypal = 'assets/app/paypal.png';
+  static const String card = 'assets/app/card.png';
+
+  static const String success = 'assets/app/success.png';
 }

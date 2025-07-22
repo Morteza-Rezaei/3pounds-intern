@@ -9,6 +9,10 @@ import 'package:food_delivery/features/auth/presentation/pages/complete_phone_pa
 import 'package:food_delivery/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:food_delivery/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:food_delivery/features/checkout/presentation/pages/add_card_page.dart';
+import 'package:food_delivery/features/checkout/presentation/pages/cart_page.dart';
+import 'package:food_delivery/features/checkout/presentation/pages/payment_method_page.dart';
+import 'package:food_delivery/features/checkout/presentation/pages/success_message_page.dart';
 import 'package:food_delivery/features/foods/presentation/pages/foods_page.dart';
 import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
 import 'package:food_delivery/features/meal_detail/presentation/pages/meal_detail_page.dart';
@@ -97,6 +101,19 @@ final GoRouter appRouter = GoRouter(
         final restaurant = state.extra as RestaurantEntity;
         return RestaurantDetailPage(restaurant: restaurant);
       },
+    ),
+    GoRoute(path: '/cart', builder: (context, state) => const CartPage()),
+    GoRoute(
+      path: '/payment-method',
+      builder: (context, state) => const PaymentMethodPage(),
+    ),
+    GoRoute(
+      path: '/add-card',
+      builder: (context, state) => const AddCardPage(),
+    ),
+    GoRoute(
+      path: '/success-message',
+      builder: (context, state) => const SuccessMessagePage(),
     ),
   ],
 );
