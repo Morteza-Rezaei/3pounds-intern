@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/core/constants/colors.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_bloc.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_state.dart';
+import 'package:food_delivery/features/home/presentation/blocs/meals_bloc/meals_bloc.dart';
+import 'package:food_delivery/features/home/presentation/blocs/meals_bloc/meals_state.dart';
 import 'package:food_delivery/shared/widgets/back_button.dart';
 import 'package:food_delivery/shared/widgets/meal_card.dart';
 import 'package:food_delivery/features/search/presentation/widgets/restaurant_mini_card.dart';
@@ -44,51 +49,65 @@ class SearchPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Text('Recent Keywords', style: TextStyle(fontSize: 20.sp)),
             ),
-            ValueListenableBuilder<String?>(
-              valueListenable: selectedKeyword,
-              builder: (context, selected, _) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: dummyCategories.map((category) {
-                      final isSelected = category.name == selected;
+            BlocBuilder<CategoriesBloc, CategoriesState>(
+              builder: (context, state) {
+                if (state is CategoriesLoading) {
+                  return const SizedBox(
+                    height: 48,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (state is CategoriesLoaded) {
+                  return ValueListenableBuilder<String?>(
+                    valueListenable: selectedKeyword,
+                    builder: (context, selected, _) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: state.categories.map((category) {
+                            final isSelected = category.name == selected;
 
-                      return Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: ChoiceChip(
-                          checkmarkColor: isSelected
-                              ? Colors.white
-                              : Colors.black87,
-                          label: Text(
-                            category.name,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: isSelected ? Colors.white : Colors.black87,
-                            ),
-                          ),
-                          selected: isSelected,
-                          onSelected: (_) {
-                            selectedKeyword.value = isSelected
-                                ? null
-                                : category.name;
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(45.r),
-                            side: BorderSide(color: Colors.grey.shade300),
-                          ),
-                          backgroundColor: Colors.white,
-                          selectedColor: AppColors.primary,
-
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                            vertical: 12.h,
-                          ),
+                            return Padding(
+                              padding: EdgeInsets.only(right: 12.w),
+                              child: ChoiceChip(
+                                checkmarkColor: isSelected
+                                    ? Colors.white
+                                    : Colors.black87,
+                                label: Text(
+                                  category.name,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black87,
+                                  ),
+                                ),
+                                selected: isSelected,
+                                onSelected: (_) {
+                                  selectedKeyword.value = isSelected
+                                      ? null
+                                      : category.name;
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(45.r),
+                                  side: BorderSide(color: Colors.grey.shade300),
+                                ),
+                                backgroundColor: Colors.white,
+                                selectedColor: AppColors.primary,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                  vertical: 12.h,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
                       );
-                    }).toList(),
-                  ),
-                );
+                    },
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
               },
             ),
 
@@ -124,26 +143,39 @@ class SearchPage extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              itemCount: allMeals.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.h,
-                crossAxisSpacing: 16.w,
-                childAspectRatio: 1 / 1,
-              ),
-              itemBuilder: (context, index) {
-                return MealCard(
-                  meal: allMeals[index],
-                  mealDetailCallback: () {
-                    context.push('/meal-detail', extra: allMeals[index]);
-                  },
-                );
+            BlocBuilder<MealsBloc, MealsState>(
+              builder: (context, state) {
+                if (state is MealsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is MealsLoaded) {
+                  final meals = state.meals;
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    itemCount: meals.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.h,
+                      crossAxisSpacing: 16.w,
+                      childAspectRatio: 1 / 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      return MealCard(
+                        meal: meals[index],
+                        mealDetailCallback: () {
+                          context.push('/meal-detail', extra: meals[index]);
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
               },
             ),
+
             SizedBox(height: 32.h),
           ],
         ),

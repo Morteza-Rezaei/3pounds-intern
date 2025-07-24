@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:food_delivery/shared/models/meal_entity.dart';
+import 'package:food_delivery/features/home/domain/entities/meal_entity.dart';
 
 class MealCard extends StatelessWidget {
   final MealEntity meal;
@@ -48,15 +48,17 @@ class MealCard extends StatelessWidget {
                           fontSize: 14.sp,
                         ),
                         textAlign: TextAlign.center,
+                        maxLines: 1,
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        meal.restaurantName,
+                        'meal description goes here',
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: Colors.grey.shade600,
                         ),
                         textAlign: TextAlign.center,
+                        maxLines: 1,
                       ),
                       if (addToCartVisible) ...[
                         SizedBox(height: 8.h),
@@ -64,7 +66,7 @@ class MealCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '\$${meal.price}',
+                              '\$10',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16.sp,
@@ -99,7 +101,7 @@ class MealCard extends StatelessWidget {
               right: 0,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Image.asset(meal.imageUrl, height: 100.h),
+                child: Image.network(meal.thumbnail, height: 100.h),
               ),
             ),
           ],

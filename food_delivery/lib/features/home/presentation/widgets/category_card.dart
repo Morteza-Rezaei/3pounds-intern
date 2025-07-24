@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 12)],
             ),
-            child: Image.asset(
+            child: Image.network(
               category.imageUrl,
               width: 100.w,
               height: 100.h,

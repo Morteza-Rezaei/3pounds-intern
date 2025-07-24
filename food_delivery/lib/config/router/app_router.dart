@@ -14,6 +14,10 @@ import 'package:food_delivery/features/checkout/presentation/pages/cart_page.dar
 import 'package:food_delivery/features/checkout/presentation/pages/payment_method_page.dart';
 import 'package:food_delivery/features/checkout/presentation/pages/success_message_page.dart';
 import 'package:food_delivery/features/foods/presentation/pages/foods_page.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_bloc.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_event.dart';
+import 'package:food_delivery/features/home/presentation/blocs/meals_bloc/meals_bloc.dart';
+import 'package:food_delivery/features/home/presentation/blocs/meals_bloc/meals_event.dart';
 import 'package:food_delivery/features/home/presentation/pages/home_page.dart';
 import 'package:food_delivery/features/meal_detail/presentation/pages/meal_detail_page.dart';
 import 'package:food_delivery/features/meal_detail/presentation/pages/restaurant_detail_page.dart';
@@ -33,7 +37,17 @@ final GoRouter appRouter = GoRouter(
   debugLogDiagnostics: true,
   routes: [
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
-    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    GoRoute(
+      path: '/home',
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => CategoriesBloc()..add(FetchCategories())),
+          BlocProvider(create: (_) => MealsBloc()),
+        ],
+        child: const HomePage(),
+      ),
+    ),
+
     GoRoute(
       path: '/welcome',
       builder: (context, state) => BlocProvider(
@@ -88,9 +102,13 @@ final GoRouter appRouter = GoRouter(
       path: '/foods',
       builder: (context, state) {
         final category = state.extra as String?;
-        return FoodsPage(initialCategory: category);
+        return BlocProvider(
+          create: (_) => MealsBloc()..add(FetchMealsByCategory(category ?? '')),
+          child: FoodsPage(initialCategory: category),
+        );
       },
     ),
+
     GoRoute(
       path: '/meal-detail',
       builder: (context, state) {
@@ -102,9 +120,13 @@ final GoRouter appRouter = GoRouter(
       path: '/restaurant-detail',
       builder: (context, state) {
         final restaurant = state.extra as RestaurantEntity;
-        return RestaurantDetailPage(restaurant: restaurant);
+        return BlocProvider(
+          create: (_) => MealsBloc(),
+          child: RestaurantDetailPage(restaurant: restaurant),
+        );
       },
     ),
+
     GoRoute(path: '/cart', builder: (context, state) => const CartPage()),
     GoRoute(
       path: '/payment-method',

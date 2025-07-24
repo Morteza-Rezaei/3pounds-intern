@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_bloc.dart';
+import 'package:food_delivery/features/home/presentation/blocs/categories_bloc/categories_state.dart';
 import 'package:food_delivery/features/home/presentation/widgets/category_card.dart';
 import 'package:food_delivery/features/home/presentation/widgets/greeting_text.dart';
-import 'package:food_delivery/shared/dummy/dummy_categories.dart';
+
 import 'package:food_delivery/shared/dummy/dummy_restaurants.dart';
+import 'package:food_delivery/shared/models/category_model.dart';
 import 'package:food_delivery/shared/widgets/restaurant_card.dart';
 import 'package:food_delivery/features/home/presentation/widgets/search_textfield.dart';
 import 'package:food_delivery/features/home/presentation/widgets/section_header.dart';
@@ -35,28 +39,39 @@ class HomePage extends StatelessWidget {
                 context.push('/foods', extra: null);
               },
             ),
-            SizedBox(
-              height: 180.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: dummyCategories.length,
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                itemBuilder: (context, index) {
-                  return CategoryCard(
-                    category: dummyCategories[index],
-                    onTap: () {
-                      // Handle category selection
-                      print(
-                        'Selected category: ${dummyCategories[index].name}',
-                      );
-                      context.push(
-                        '/foods',
-                        extra: dummyCategories[index].name,
-                      );
-                    },
+            BlocBuilder<CategoriesBloc, CategoriesState>(
+              builder: (context, state) {
+                if (state is CategoriesLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is CategoriesLoaded) {
+                  final categories = state.categories;
+
+                  return SizedBox(
+                    height: 180.h,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: categories.length,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      itemBuilder: (context, index) {
+                        final category = categories[index];
+                        return CategoryCard(
+                          category: CategoryModel(
+                            name: category.name,
+                            imageUrl: category.thumbnail,
+                          ),
+                          onTap: () {
+                            context.push('/foods', extra: category.name);
+                          },
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                } else if (state is CategoriesError) {
+                  return Center(child: Text('Hata: ${state.message}'));
+                }
+
+                return const SizedBox.shrink();
+              },
             ),
 
             SectionHeader(title: 'Open Restaurants'),
