@@ -48,4 +48,7 @@ class AppPaths {
   static const String card = 'assets/app/card.png';
 
   static const String success = 'assets/app/success.png';
+  static const String track = 'assets/app/track.png';
+
+  static const String courierAvatar = 'assets/app/courier_avatar.png';
 }

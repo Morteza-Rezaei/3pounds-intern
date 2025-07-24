@@ -19,6 +19,9 @@ import 'package:food_delivery/features/meal_detail/presentation/pages/meal_detai
 import 'package:food_delivery/features/meal_detail/presentation/pages/restaurant_detail_page.dart';
 import 'package:food_delivery/features/search/presentation/pages/search_page.dart';
 import 'package:food_delivery/features/splash/presentation/page/splash_page.dart';
+import 'package:food_delivery/features/tracking/presentation/pages/my_orders_page.dart';
+import 'package:food_delivery/features/tracking/presentation/pages/track__map_page.dart';
+import 'package:food_delivery/features/tracking/presentation/pages/track_order_page.dart';
 import 'package:food_delivery/features/welcome/presentation/bloc/welcome_bloc.dart';
 import 'package:food_delivery/features/welcome/presentation/page/welcome_page.dart';
 import 'package:food_delivery/shared/models/meal_entity.dart';
@@ -114,6 +117,18 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/success-message',
       builder: (context, state) => const SuccessMessagePage(),
+    ),
+    GoRoute(
+      path: '/my-orders',
+      builder: (context, state) => const MyOrdersPage(),
+    ),
+    GoRoute(
+      path: '/track-order',
+      builder: (context, state) => const TrackOrderPage(),
+    ),
+    GoRoute(
+      path: '/track-map',
+      builder: (context, state) => const TrackMapPage(),
     ),
   ],
 );
